@@ -25,9 +25,12 @@ metadata:
     
     # Datadog Observability Integration
     datadoghq.com/site: datadoghq.com
-    datadoghq.com/dashboard-url: https://app.datadoghq.com/dashboard/abc-123
+    datadoghq.com/dashboard-url: https://app.datadoghq.com/dashboard/abc-123-artist-lookup
     datadoghq.com/service-name: artist-lookup
-    datadoghq.com/graph-token: your-graph-token-here
+    datadoghq.com/graph-token: demo-graph-token
+    datadoghq.com/service-tags: 'env:production,team:team-a,service:artist-lookup'
+    datadoghq.com/monitor-ids: '12345678,23456789'
+    datadoghq.com/slo-ids: 'slo-1,slo-2'
     
     # Monitoring & Alerting
     pagerduty.com/integration-key: your-integration-key
