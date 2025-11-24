@@ -1,0 +1,131 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: spotify-api
+  title: Spotify Web API
+  description: External Spotify Web API for music data
+  tags:
+    - spotify
+    - music
+    - external
+    - rest
+  annotations:
+    backstage.io/techdocs-ref: url:https://developer.spotify.com/documentation/web-api
+  links:
+    - url: https://developer.spotify.com/documentation/web-api
+      title: API Documentation
+      icon: docs
+    - url: https://developer.spotify.com/console
+      title: API Console
+      icon: dashboard
+spec:
+  type: openapi
+  lifecycle: production
+  owner: external
+  system: external-services
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: Spotify Web API
+      version: 1.0.0
+      description: External Spotify Web API
+    servers:
+      - url: https://api.spotify.com/v1
+        description: Spotify API
+    paths:
+      /search:
+        get:
+          summary: Search for artists, albums, tracks
+          parameters:
+            - name: q
+              in: query
+              required: true
+              schema:
+                type: string
+            - name: type
+              in: query
+              required: true
+              schema:
+                type: string
+                enum: [artist, album, track]
+          responses:
+            '200':
+              description: Search results
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: musicbrainz-api
+  title: MusicBrainz API
+  description: External MusicBrainz API for music metadata
+  tags:
+    - musicbrainz
+    - music
+    - external
+    - rest
+  annotations:
+    backstage.io/techdocs-ref: url:https://musicbrainz.org/doc/MusicBrainz_API
+  links:
+    - url: https://musicbrainz.org/doc/MusicBrainz_API
+      title: API Documentation
+      icon: docs
+    - url: https://musicbrainz.org/
+      title: MusicBrainz Website
+      icon: web
+spec:
+  type: openapi
+  lifecycle: production
+  owner: external
+  system: external-services
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: MusicBrainz API
+      version: 2.0.0
+      description: External MusicBrainz API
+    servers:
+      - url: https://musicbrainz.org/ws/2
+        description: MusicBrainz API
+    paths:
+      /artist:
+        get:
+          summary: Search for artists
+          parameters:
+            - name: query
+              in: query
+              required: true
+              schema:
+                type: string
+          responses:
+            '200':
+              description: Artist search results
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: external-services
+  title: External Services
+  description: Third-party external services and APIs
+  tags:
+    - external
+    - third-party
+spec:
+  owner: external
+  domain: platform
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: external
+  title: External Providers
+  description: External service providers
+spec:
+  type: team
+  profile:
+    displayName: External Providers
+    email: external@example.com
+  children: []
+
