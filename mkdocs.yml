@@ -1,0 +1,30 @@
+site_name: 'Artist Lookup Service'
+site_description: 'Comprehensive documentation for Artist Lookup microservice'
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Quick Start: getting-started.md
+    - Configuration: configuration.md
+  - Architecture:
+    - Overview: architecture/overview.md
+    - API Design: architecture/api-design.md
+    - Database Schema: architecture/database.md
+  - Operations:
+    - Deployment: operations/deployment.md
+    - Monitoring: operations/monitoring.md
+    - Troubleshooting: operations/troubleshooting.md
+  - Development:
+    - Setup: development/setup.md
+    - Testing: development/testing.md
+    - Contributing: development/contributing.md
+
+plugins:
+  - techdocs-core
+
+theme:
+  name: material
+  palette:
+    primary: indigo
+    accent: indigo
+

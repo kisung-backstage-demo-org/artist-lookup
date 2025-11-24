@@ -1,0 +1,279 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: artist-lookup
+  title: Artist Lookup Service
+  description: |
+    A comprehensive demo microservice that shows all Backstage features including
+    CI/CD integration, API documentation, dependencies tracking, TechDocs, and
+    observability with Datadog monitoring.
+  tags:
+    - java
+    - spring-boot
+    - rest-api
+    - microservice
+    - demo
+  annotations:
+    # GitHub Integration
+    github.com/project-slug: kisung-backstage-demo-org/artist-lookup
+    
+    # CI/CD Integration
+    github.com/workflows: build.yaml,deploy.yaml,security-scan.yaml
+    
+    # API Documentation
+    backstage.io/techdocs-ref: dir:.
+    
+    # Datadog Observability Integration
+    datadoghq.com/site: datadoghq.com
+    datadoghq.com/dashboard-url: https://app.datadoghq.com/dashboard/abc-123
+    datadoghq.com/service-name: artist-lookup
+    datadoghq.com/graph-token: your-graph-token-here
+    
+    # Monitoring & Alerting
+    pagerduty.com/integration-key: your-integration-key
+    opsgenie.com/component-selector: service:artist-lookup
+    
+    # Cost Tracking
+    cloud.google.com/cost-insights-project: your-gcp-project
+    
+    # Code Quality
+    sonarqube.org/project-key: artist-lookup
+    
+    # Security
+    snyk.io/org-id: your-org-id
+    snyk.io/project-ids: project-id-1,project-id-2
+    
+  links:
+    # Production Environment
+    - url: https://artist-lookup.example.com
+      title: Production
+      icon: dashboard
+      
+    # Staging Environment
+    - url: https://staging.artist-lookup.example.com
+      title: Staging
+      icon: dashboard
+      
+    # API Documentation
+    - url: https://api-docs.example.com/artist-lookup
+      title: API Documentation
+      icon: docs
+      
+    # Datadog Dashboard
+    - url: https://app.datadoghq.com/dashboard/abc-123
+      title: Datadog Dashboard
+      icon: dashboard
+      
+    # Datadog Logs
+    - url: https://app.datadoghq.com/logs?query=service:artist-lookup
+      title: Service Logs
+      icon: search
+      
+    # Datadog APM
+    - url: https://app.datadoghq.com/apm/service/artist-lookup
+      title: APM Traces
+      icon: timeline
+      
+    # Grafana Metrics
+    - url: https://grafana.example.com/d/artist-lookup
+      title: Metrics Dashboard
+      icon: lineChart
+      
+    # PagerDuty
+    - url: https://example.pagerduty.com/services/artist-lookup
+      title: On-Call Schedule
+      icon: alert
+      
+    # Slack Channel
+    - url: https://example.slack.com/archives/C01234567
+      title: '#artist-lookup'
+      icon: chat
+      
+    # Runbook
+    - url: https://wiki.example.com/runbooks/artist-lookup
+      title: Runbook
+      icon: docs
+
+spec:
+  type: service
+  lifecycle: production
+  owner: team-a
+  system: artist-engagement-portal
+  
+  providesApis:
+    - artist-lookup-api
+    
+  consumesApis:
+    - spotify-api
+    - musicbrainz-api
+    
+  dependsOn:
+    - resource:default/artists-db
+    - resource:default/redis-cache
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: artist-lookup-api
+  title: Artist Lookup REST API
+  description: RESTful API for searching and retrieving artist information
+  tags:
+    - rest
+    - openapi
+    - v1
+  annotations:
+    github.com/project-slug: kisung-backstage-demo-org/artist-lookup
+  links:
+    - url: https://api-docs.example.com/artist-lookup/swagger-ui
+      title: Swagger UI
+      icon: docs
+    - url: https://api-docs.example.com/artist-lookup/redoc
+      title: ReDoc
+      icon: docs
+spec:
+  type: openapi
+  lifecycle: production
+  owner: team-a
+  system: artist-engagement-portal
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: Artist Lookup API
+      version: 1.0.0
+      description: API for searching and retrieving artist information
+    servers:
+      - url: https://api.example.com/v1
+        description: Production
+      - url: https://staging-api.example.com/v1
+        description: Staging
+    paths:
+      /artists:
+        get:
+          summary: Search artists
+          operationId: searchArtists
+          tags:
+            - Artists
+          parameters:
+            - name: q
+              in: query
+              required: true
+              schema:
+                type: string
+              description: Search query
+            - name: limit
+              in: query
+              schema:
+                type: integer
+                default: 10
+                maximum: 100
+          responses:
+            '200':
+              description: Successful response
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      artists:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Artist'
+      /artists/{id}:
+        get:
+          summary: Get artist by ID
+          operationId: getArtist
+          tags:
+            - Artists
+          parameters:
+            - name: id
+              in: path
+              required: true
+              schema:
+                type: string
+          responses:
+            '200':
+              description: Successful response
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/Artist'
+            '404':
+              description: Artist not found
+    components:
+      schemas:
+        Artist:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            genre:
+              type: array
+              items:
+                type: string
+            popularity:
+              type: integer
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: artist-engagement-portal
+  title: Artist Engagement Portal
+  description: System for managing artist data and engagement
+  tags:
+    - portal
+    - engagement
+spec:
+  owner: team-a
+  domain: music-platform
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: artists-db
+  title: Artists PostgreSQL Database
+  description: Primary database for artist information
+  tags:
+    - postgresql
+    - database
+  annotations:
+    datadoghq.com/dashboard-url: https://app.datadoghq.com/dashboard/db-123
+spec:
+  type: database
+  owner: team-a
+  system: artist-engagement-portal
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: redis-cache
+  title: Redis Cache
+  description: Redis cache for artist lookup
+  tags:
+    - redis
+    - cache
+spec:
+  type: cache
+  owner: team-a
+  system: artist-engagement-portal
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: team-a
+  title: Team A
+  description: Backend services team
+spec:
+  type: team
+  profile:
+    displayName: Team A - Backend Services
+    email: team-a@example.com
+    picture: https://example.com/team-a-avatar.png
+  children: []
+
