@@ -20,14 +20,14 @@ metadata:
     # CI/CD Integration
     github.com/workflows: build.yaml,deploy.yaml,security-scan.yaml
     
-    # API Documentation
-    backstage.io/techdocs-ref: dir:.
+    # API Documentation (TechDocs disabled - mkdocs not available in Backstage container)
+    # backstage.io/techdocs-ref: dir:.
     
     # Datadog Observability Integration
     datadoghq.com/site: datadoghq.com
-    datadoghq.com/dashboard-url: https://app.datadoghq.com/dashboard/abc-123-artist-lookup
+    datadoghq.com/dashboard-url: https://p.datadoghq.com/sb/rklUvX-906b8a582ad8ec6f6f4acd7b51a3b9a5
     datadoghq.com/service-name: artist-lookup
-    datadoghq.com/graph-token: demo-graph-token
+    datadoghq.com/graph-token: rklUvX-906b8a582ad8ec6f6f4acd7b51a3b9a5
     datadoghq.com/service-tags: 'env:production,team:team-a,service:artist-lookup'
     datadoghq.com/monitor-ids: '12345678,23456789'
     datadoghq.com/slo-ids: 'slo-1,slo-2'
@@ -62,19 +62,24 @@ metadata:
       title: API Documentation
       icon: docs
       
-    # Datadog Dashboard
-    - url: https://app.datadoghq.com/dashboard/abc-123
-      title: Datadog Dashboard
+    # Datadog Dashboard (Shared Public Dashboard)
+    - url: https://p.datadoghq.com/sb/rklUvX-906b8a582ad8ec6f6f4acd7b51a3b9a5
+      title: 📊 Datadog Dashboard
       icon: dashboard
+      
+    # Monitoring Documentation
+    - url: https://github.com/kisung-backstage-demo-org/artist-lookup/blob/main/docs/operations/monitoring.md
+      title: 📖 Monitoring Guide
+      icon: docs
       
     # Datadog Logs
     - url: https://app.datadoghq.com/logs?query=service:artist-lookup
-      title: Service Logs
+      title: 🔍 Service Logs
       icon: search
       
     # Datadog APM
     - url: https://app.datadoghq.com/apm/service/artist-lookup
-      title: APM Traces
+      title: ⚡ APM Traces
       icon: timeline
       
     # Grafana Metrics
